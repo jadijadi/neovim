@@ -1546,6 +1546,9 @@ nvim_set_current_win({window})                        *nvim_set_current_win()*
 nvim_set_hl({ns_id}, {name}, {*val})                           *nvim_set_hl()*
                 Set a highlight group.
 
+                Note: unlike the `:highlight` command which can update a highlight group, this function
+                completely replaces the definition. For example: nvim_set_hl(0, 'Visual , {}) will clear the highlight group 'Visual .
+
                 Parameters: ~
                     {ns_id}  number of namespace for this highlight. Use value
                              0 to set a highlight group in the global (
@@ -2579,6 +2582,28 @@ nvim_buf_set_extmark({buffer}, {ns_id}, {line}, {col}, {*opts})
                                 not be placed if the line or column value is
                                 past the end of the buffer or end of the line
                                 respectively. Defaults to true.
+                              • sign_text: string of length 1-2 used to
+                                display in the sign column. Note: ranges are
+                                unsupported and decorations are only applied
+                                to start_row
+                              • sign_hl_group: name of the highlight group
+                                used to highlight the sign column text. Note:
+                                ranges are unsupported and decorations are
+                                only applied to start_row
+                              • number_hl_group: name of the highlight group
+                                used to highlight the number column. Note:
+                                ranges are unsupported and decorations are
+                                only applied to start_row
+                              • line_hl_group: name of the highlight group
+                                used to highlight the whole line. Note: ranges
+                                are unsupported and decorations are only
+                                applied to start_row
+                              • cursorline_hl_group: name of the highlight
+                                group used to highlight the line when the
+                                cursor is on the same line as the mark and
+                                'cursorline' is enabled. Note: ranges are
+                                unsupported and decorations are only applied
+                                to start_row
 
                 Return: ~
                     Id of the created/updated extmark
@@ -2813,7 +2838,7 @@ nvim_win_set_buf({window}, {buffer})                      *nvim_win_set_buf()*
 
 nvim_win_set_cursor({window}, {pos})                   *nvim_win_set_cursor()*
                 Sets the (1,0)-indexed cursor position in the window.
-                |api-indexing|
+                |api-indexing| Unlike |win_execute()| this scrolls the window.
 
                 Parameters: ~
                     {window}  Window handle, or 0 for current window
